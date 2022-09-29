@@ -82,7 +82,11 @@ const App = () => {
     setActive(false);
   }
 
-  let showError = <p className={classes.error}>Invalid Inputs!!</p>;
+  let showError = (
+    <p className={classes.error}>
+      Invalid Inputs!! <br /> Please reset
+    </p>
+  );
 
   return (
     <div className={classes.app}>
@@ -137,29 +141,31 @@ const App = () => {
         {/* Right Container */}
 
         <div className={classes.app_container__right}>
-          <div className={classes.tip_amount}>
-            <div className={classes.tip}>
-              <h3>Tip Amount</h3>
-              <p>per person</p>
+          <div className={classes.tipContainer}>
+            <div className={classes.tip_amount}>
+              <div className={classes.tip}>
+                <h3>Tip Amount</h3>
+                <p>per person</p>
+              </div>
+              <p className={classes.tip_tag}>
+                {!error && <span>$</span>}
+                {error ? showError : tipAmount}
+              </p>
             </div>
-            <p className={classes.tip_tag}>
-              {!error && <span>$</span>}
-              {error ? showError : tipAmount}
-            </p>
-          </div>
-          <div className={classes.tip_total}>
-            <div className={classes.tip}>
-              <h3> Total</h3>
-              <p>per person</p>
+            <div className={classes.tip_total}>
+              <div className={classes.tip}>
+                <h3> Total</h3>
+                <p>per person</p>
+              </div>
+              <p className={classes.tip_tag}>
+                {!error && <span>$</span>}
+                {error ? showError : totalAmount}
+              </p>
             </div>
-            <p className={classes.tip_tag}>
-              {!error && <span>$</span>}
-              {error ? showError : totalAmount}
-            </p>
+            <button className={classes.button} onClick={resetHandler}>
+              Reset
+            </button>
           </div>
-          <button className={classes.button} onClick={resetHandler}>
-            Reset
-          </button>
         </div>
       </div>
     </div>
