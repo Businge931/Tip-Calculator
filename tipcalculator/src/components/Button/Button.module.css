@@ -12,7 +12,14 @@
   font-size: 1.2rem;
   cursor: pointer;
 }
-.button:hover {
+.button:hover,
+.button:active,
+.button:visited {
+  color: #00494d;
+  background-color: #c5e4e7;
+}
+
+.button.active {
   color: #00494d;
   background-color: #c5e4e7;
 }
