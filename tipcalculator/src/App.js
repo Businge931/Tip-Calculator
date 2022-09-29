@@ -14,6 +14,8 @@ const App = () => {
   const [totalAmount, setTotalAmount] = useState(initialTip);
   const [customTip, setCustomTip] = useState();
   const [error, setError] = useState("");
+  const [active, setActive] = useState(false);
+  const [selected, setSelected] = useState();
 
   const billHandler = (e) => {
     setBill(e.target.value);
@@ -24,20 +26,12 @@ const App = () => {
   };
   const billEror = !bill || bill < 0;
   const numberOfPersonsError = numberOfPeople <= 0;
-  // const stringError = typeof numberOfPeople !== "number";
 
   const formSubmitHandler = (e) => {
     e.preventDefault();
 
     if (billEror || numberOfPersonsError) {
-      setError(
-        // numberOfPersonsError
-        //   ? "Can not be zero"
-        //   : stringError
-        //   ? "Should be a number"
-        //   : null
-        "Can not be zero"
-      );
+      setError("Can not be zero");
     }
   };
 
@@ -49,20 +43,19 @@ const App = () => {
     setTotalAmount(personalTotalAmount.toFixed(2));
   };
 
-  const tipByFivePercent = () => {
-    calculations(0.05);
-  };
-  const tipByTenPercent = () => {
-    calculations(0.1);
-  };
-  const tipByFifteenPercent = () => {
-    calculations(0.15);
-  };
-  const tipByTwentyfivePercent = () => {
-    calculations(0.25);
-  };
-  const tipByFiftyPercent = () => {
-    calculations(0.5);
+  const buttonTips = [
+    { label: 5 },
+    { label: 10 },
+    { label: 15 },
+    { label: 25 },
+    { label: 50 },
+  ];
+
+  const tipPercentage = (tipPercentage, index) => {
+    const tip = tipPercentage / 100;
+    calculations(tip);
+    setActive(true);
+    setSelected(index);
   };
 
   const customTipHandler = (e) => {
@@ -81,6 +74,7 @@ const App = () => {
     setTipAmount("0.00");
     setTotalAmount("0.00");
     setBill("");
+    setCustomTip("");
   };
 
   let showError = <p className={classes.error}>Invalid Inputs!!</p>;
@@ -101,31 +95,6 @@ const App = () => {
               onChange={billHandler}
               dollar
             />
-            <p className={classes.selectTip}>Select Tip %</p>
-            <nav className={classes.tip_buttons}>
-              <Button type="submit" onClick={tipByFivePercent}>
-                5%
-              </Button>
-              <Button type="submit" onClick={tipByTenPercent}>
-                10%
-              </Button>
-              <Button type="submit" onClick={tipByFifteenPercent}>
-                15%
-              </Button>
-              <Button type="submit" onClick={tipByTwentyfivePercent}>
-                25%
-              </Button>
-              <Button type="submit" onClick={tipByFiftyPercent}>
-                50%
-              </Button>
-              <CustomInput
-                isLabelNecessary
-                placeholder="CUSTOM"
-                onChange={customTipHandler}
-                value={customTip}
-                error={error}
-              />
-            </nav>
             <div className={classes.label_error}>
               <label className={classes.label}>Number of people</label>
               <p>{numberOfPersonsError && error}</p>
@@ -137,6 +106,26 @@ const App = () => {
               error={numberOfPersonsError && error}
               icon
             />
+            <p className={classes.selectTip}>Select Tip %</p>
+            <nav className={classes.tip_buttons}>
+              {buttonTips.map((buttonTip, index) => (
+                <Button
+                  isActive={index === selected && active}
+                  type="submit"
+                  onClick={() => tipPercentage(buttonTip.label, index)}
+                >
+                  {buttonTip.label}%
+                </Button>
+              ))}
+
+              <CustomInput
+                isLabelNecessary
+                placeholder="CUSTOM"
+                onChange={customTipHandler}
+                value={customTip}
+                error={error}
+              />
+            </nav>
           </form>
         </div>
 
@@ -146,7 +135,7 @@ const App = () => {
           <div className={classes.tip_amount}>
             <div className={classes.tip}>
               <h3>Tip Amount</h3>
-              <p>/ person</p>
+              <p>per person</p>
             </div>
             <p className={classes.tip_tag}>
               {!error && <span>$</span>}
@@ -156,7 +145,7 @@ const App = () => {
           <div className={classes.tip_total}>
             <div className={classes.tip}>
               <h3> Total</h3>
-              <p>/ person</p>
+              <p>per person</p>
             </div>
             <p className={classes.tip_tag}>
               {!error && <span>$</span>}
