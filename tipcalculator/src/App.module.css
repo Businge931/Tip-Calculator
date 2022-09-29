@@ -91,10 +91,12 @@
 .tip h3 {
   color: hsl(189, 41%, 97%);
   font-size: 0.8rem;
+  text-align: left;
 }
 .tip p {
-  color: #5e7a7d;
-  font-size: 0.6rem;
+  /* color: #5e7a7d; */
+  color: #c5e4e7bb;
+  font-size: 0.7rem;
 }
 
 .error {
