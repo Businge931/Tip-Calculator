@@ -24,6 +24,7 @@ const App = () => {
   const numberOfPeopleHandler = (e) => {
     setNumberOfPeople(e.target.value);
   };
+
   const billEror = !bill || bill < 0;
   const numberOfPersonsError = numberOfPeople <= 0;
 
@@ -33,6 +34,7 @@ const App = () => {
     if (billEror || numberOfPersonsError) {
       setError("Can not be zero");
     }
+    // resetHandler();
   };
 
   const calculations = (theTip) => {
@@ -67,15 +69,18 @@ const App = () => {
 
     setCustomTip(+enteredTip);
     calculations(+enteredTip / 100);
+    setActive(false);
   };
 
-  const resetHandler = () => {
+  function resetHandler() {
     setNumberOfPeople("");
     setTipAmount("0.00");
     setTotalAmount("0.00");
     setBill("");
     setCustomTip("");
-  };
+    setError(false);
+    setActive(false);
+  }
 
   let showError = <p className={classes.error}>Invalid Inputs!!</p>;
 
